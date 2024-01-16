@@ -17,7 +17,6 @@ db = SQLAlchemy(app)
 student_df = pd.DataFrame()
 video_df = pd.read_excel(r".\static\video.xlsx", dtype={'影片標題': str, '影片連結': str, '類別': str, '難易度': int})
 
-
 class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), nullable=False)
@@ -35,7 +34,6 @@ with app.app_context():
                                   category=row['類別'],
                                   difficulty=row['難易度'])
         db.session.add(video_entry)
-
     db.session.commit()
 
 @app.route('/save_gmail', methods=['POST'])
@@ -59,6 +57,7 @@ def save_message(message):
     messages.append({"message": message, "time": current_time})
     with open('messages.json', 'w') as file:
         json.dump(messages, file)
+        
 def save_gmail(gmail):
     gmail_data = []
     if os.path.exists('gmail.json') and os.path.getsize('gmail.json') > 0:
